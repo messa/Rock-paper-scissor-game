@@ -53,5 +53,6 @@ while True:
             print("You lost!")
     elif question_low == "no":
         endgame()
+        break
     else:
         print("I dont understand. Please type yes or no: ")
