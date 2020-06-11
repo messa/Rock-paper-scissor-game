@@ -2,8 +2,8 @@
 import random
 
 def is_valid_play(a):
-    while a not in ["rock", "scissors", "paper"]:
-        choice_player = input("I dont understand. Please type rock, scissors or paper: ")
+    if a.lower() == "rock" or a.lower() == "paper" or a.lower() == "scissors":
+        return True
 
 def endgame():
     print("The end.")
@@ -11,7 +11,7 @@ def endgame():
 def evaluate(player, computer):
     if player == "rock" and computer == "scissors":
         return "win"
-    elif  == "scissors" and computer == "paper":
+    elif player == "scissors" and computer == "paper":
         return "win"
     elif player == "paper" and computer == "rock":
         return "win"
@@ -30,23 +30,28 @@ def evaluate(player, computer):
     elif player == "rock" and computer == "paper":
         return "loss"
     else:
-        print("Seems like there is an error - please tell Kim. ")
+        print("Seems like there is an error - please tell the author. ")
 
 
 while True:
-    question = input("Wanna play rock/scissors/paper? type yes/no and hit enter: ")
-    if question == "yes":
-        choice_playere = input("Rock, scissors or paper? ")
-        is_valid_play(choice_playere)
-        choice_computere = random.choice(["rock", "scissors", "paper"])
-        print("Computer choose", choice_computere)
-        if evaluate(choice_playere, choice_computere) == "win":
+    question = input("Wanna play rock/paper/scissors? type yes/no and hit enter: ")
+    question_low = question.lower()
+    if question_low == "yes":
+        choice_player = input("Rock, scissors or paper? ")
+        choice_player_low = choice_player.lower()
+        while is_valid_play(choice_player_low) != True:
+            choice_player = input("I dont understand. Please type rock, paper or scissors: ")
+            choice_player_low = choice_player.lower()
+
+        choice_computer = random.choice(["rock", "scissors", "paper"])
+        print("Computer chose", choice_computer)
+        if evaluate(choice_player_low, choice_computer) == "win":
             print("You won!")
-        elif evaluate(choice_playere, choice_computere) == "tie":
+        elif evaluate(choice_player_low, choice_computer) == "tie":
             print("Its a tie!")
-        elif evaluate(choice_playere, choice_computere) == "loss":
+        elif evaluate(choice_player_low, choice_computer) == "loss":
             print("You lost!")
-    elif question == "no":
-        break
+    elif question_low == "no":
+        endgame()
     else:
         print("I dont understand. Please type yes or no: ")
