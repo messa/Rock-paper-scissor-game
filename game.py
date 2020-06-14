@@ -13,27 +13,15 @@ def endgame():
 #this function compares player's and computer's option and returns the result of the comparsion
 def evaluate(player, computer):
     #player wins
-    if player == "rock" and computer == "scissors":
-        return "win"
-    elif player == "scissors" and computer == "paper":
-        return "win"
-    elif player == "paper" and computer == "rock":
+    if player == "rock" and computer == "scissors" or player == "scissors" and computer == "paper" or player == "paper" and computer == "rock":
         return "win"
 
     #its a tie
-    elif player == "rock" and computer == "rock":
-        return "tie"
-    elif player == "scissors" and computer == "scissors":
-        return "tie"
-    elif player == "paper" and computer == "paper":
+    elif player == "rock" and computer == "rock" or player == "scissors" and computer == "scissors" or player == "paper" and computer == "paper":
         return "tie"
 
     #computer wins
-    elif player == "scissors" and computer == "rock":
-        return "loss"
-    elif player == "paper" and computer == "scissors":
-        return "loss"
-    elif player == "rock" and computer == "paper":
+    elif player == "scissors" and computer == "rock" or player == "paper" and computer == "scissors" or  player == "rock" and computer == "paper":
         return "loss"
 
     #just for checking programming errors
