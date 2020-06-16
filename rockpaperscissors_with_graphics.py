@@ -83,7 +83,7 @@ def on_draw():
     if its_a_tie == 1:
          tie_label.draw()
     #round
-    if round_no > 3:
+    if round_no > 3: # if the round is higher than 3, stop the number at 3 (dont rise the number to 4)
         round_screen = text.Label(f"round: 3", font_size = 40, x = 550, y = 80, anchor_x="center")
         if score[0] > score[1]:
             gameover_screen = text.Label(f"Computer wins!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
@@ -91,8 +91,6 @@ def on_draw():
             gameover_screen = text.Label(f"You win!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
     round_screen.draw()
     player_start.draw()
-
-
 
 @window.event
 def on_mouse_press(x, y, b, mod):
@@ -146,16 +144,12 @@ def evaluate(player, computer):
     if player == image_player_rock and computer == image_pc_scissors or player == image_player_scissors and computer == image_pc_paper or player == image_player_paper and computer == image_pc_rock:
         score[1] = score[1] + 1 #adds score number
         its_a_tie = 0
-        player_score_screen = text.Label(f"Player's\nscore: {str(score[1])}", font_size = 30, x = 800, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
         round_no = round_no + 1 #adds round number
-        round_screen = text.Label(f"round: {round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
         #computer wins
     elif player == image_player_scissors and computer == image_pc_rock or player == image_player_paper and computer == image_pc_scissors or player == image_player_rock and computer == image_pc_paper:
         score[0] = score[0] + 1
         its_a_tie = 0
-        pc_score_screen = text.Label(f"Computer's\nscore: {str(score[0])}", font_size = 30, x = 280, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
         round_no = round_no + 1
-        round_screen = text.Label(f"round: {round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
         #its a tie
     elif player == image_player_rock and computer == image_pc_rock or player == image_player_scissors and computer == image_pc_scissors or player == image_player_paper and computer == image_pc_paper:
         its_a_tie = 1
