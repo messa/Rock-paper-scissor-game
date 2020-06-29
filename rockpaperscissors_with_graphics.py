@@ -90,15 +90,15 @@ def on_mouse_press(x, y, b, mod):
         if x in get_bounding_box(choice_image_size[1], o_rock_pos[0]) and y in get_bounding_box(choice_image_size[3], o_rock_pos[1]):
             chosen_image = image_player_rock
             player_start = sprite.Sprite(chosen_image, x = 650, y = 200)
-            evaluate(image_player_rock, computer_chose())
+            game.evaluate(image_player_rock, computer_chose())
         elif x in get_bounding_box(choice_image_size[1], o_paper_pos[0]) and y in get_bounding_box(choice_image_size[3], o_paper_pos[1]):
             chosen_image = image_player_paper
             player_start = sprite.Sprite(chosen_image, x = 650, y = 200)
-            evaluate(image_player_paper, computer_chose())
+            game.evaluate(image_player_paper, computer_chose())
         elif x in get_bounding_box(choice_image_size[1], o_scissors_pos[0]) and y in get_bounding_box(choice_image_size[3], o_scissors_pos[1]):
             chosen_image = image_player_scissors
             player_start = sprite.Sprite(chosen_image, x = 650, y = 200)
-            evaluate(image_player_scissors, computer_chose())
+            game.evaluate(image_player_scissors, computer_chose())
         else:
             pass # nothing changes if clicked outside the bounding boxes
 
@@ -123,25 +123,31 @@ def computer_chose():
     pc_start = sprite.Sprite(pc_option, x = 150, y = 200)
     return pc_option
 
-def evaluate(player, computer):
-    global player_score_screen, pc_score_screen, round_no, round_screen, score, its_a_tie
-        #player wins
-    if player == image_player_rock and computer == image_pc_scissors or player == image_player_scissors and computer == image_pc_paper or player == image_player_paper and computer == image_pc_rock:
-        score[1] = score[1] + 1 #adds score number
-        its_a_tie = 0
-        player_score_screen = text.Label(f"Player's\nscore: {str(score[1])}", font_size = 30, x = 800, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
-        round_no = round_no + 1 #adds round number
-        round_screen = text.Label(f"round: {round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
-        #computer wins
-    elif player == image_player_scissors and computer == image_pc_rock or player == image_player_paper and computer == image_pc_scissors or player == image_player_rock and computer == image_pc_paper:
-        score[0] = score[0] + 1
-        its_a_tie = 0
-        pc_score_screen = text.Label(f"Computer's\nscore: {str(score[0])}", font_size = 30, x = 280, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
-        round_no = round_no + 1
-        round_screen = text.Label(f"round: {round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
-        #its a tie
-    elif player == image_player_rock and computer == image_pc_rock or player == image_player_scissors and computer == image_pc_scissors or player == image_player_paper and computer == image_pc_paper:
-        its_a_tie = 1
+
+class Game:
+
+    def evaluate(self, player, computer):
+        global player_score_screen, pc_score_screen, round_no, round_screen, score, its_a_tie
+            #player wins
+        if player == image_player_rock and computer == image_pc_scissors or player == image_player_scissors and computer == image_pc_paper or player == image_player_paper and computer == image_pc_rock:
+            score[1] = score[1] + 1 #adds score number
+            its_a_tie = 0
+            player_score_screen = text.Label(f"Player's\nscore: {str(score[1])}", font_size = 30, x = 800, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
+            round_no = round_no + 1 #adds round number
+            round_screen = text.Label(f"round: {round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
+            #computer wins
+        elif player == image_player_scissors and computer == image_pc_rock or player == image_player_paper and computer == image_pc_scissors or player == image_player_rock and computer == image_pc_paper:
+            score[0] = score[0] + 1
+            its_a_tie = 0
+            pc_score_screen = text.Label(f"Computer's\nscore: {str(score[0])}", font_size = 30, x = 280, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
+            round_no = round_no + 1
+            round_screen = text.Label(f"round: {round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
+            #its a tie
+        elif player == image_player_rock and computer == image_pc_rock or player == image_player_scissors and computer == image_pc_scissors or player == image_player_paper and computer == image_pc_paper:
+            its_a_tie = 1
+
+
+game = Game()
 
 #global existing
 round_no = 1
