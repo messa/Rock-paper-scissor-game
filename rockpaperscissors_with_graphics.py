@@ -1,3 +1,4 @@
+from pathlib import Path
 from pyglet import sprite
 from pyglet import app
 from pyglet import image
@@ -8,6 +9,8 @@ from pyglet import graphics
 from pyglet import gl
 from pyglet import text
 import random
+
+image_dir = Path(__file__).parent / "images"
 
 F_SIZE = 30
 #transform player's options
@@ -22,23 +25,23 @@ questionmark_pos = (50, 250)
 options_all = graphics.Batch()
 window = Window(1100, 600)
 #players options
-image_option_player_rock = image.load("images\\small_choice_player-01.png")
+image_option_player_rock = image.load(image_dir / "small_choice_player-01.png")
 option_player_rock = sprite.Sprite(image_option_player_rock, o_rock_pos[0], o_rock_pos[1], batch = options_all)
-image_option_player_paper = image.load("images\\small_choice_player-02.png")
+image_option_player_paper = image.load(image_dir / "small_choice_player-02.png")
 option_player_paper = sprite.Sprite(image_option_player_paper, o_paper_pos[0], o_paper_pos[1], batch = options_all)
-image_option_player_scissors = image.load("images\\small_choice_player-03.png")
+image_option_player_scissors = image.load(image_dir / "small_choice_player-03.png")
 option_player_scissors = sprite.Sprite(image_option_player_scissors, o_scissors_pos[0], o_scissors_pos[1], batch = options_all)
 # player choice
-image_player_rock = image.load("images\\choice_player-01.png")
-image_player_paper = image.load("images\\choice_player-02.png")
-image_player_scissors = image.load("images\\choice_player-03.png")
+image_player_rock = image.load(image_dir / "choice_player-01.png")
+image_player_paper = image.load(image_dir / "choice_player-02.png")
+image_player_scissors = image.load(image_dir / "choice_player-03.png")
 chosen_image = image_player_rock
 player_start = sprite.Sprite(chosen_image, players_choice_pos[0], players_choice_pos[1], batch = options_all)
 #pc's choice
-image_pc_rock = image.load("images\\choice_pc-01.png")
-image_pc_paper = image.load("images\\choice_pc-02.png")
-image_pc_scissors = image.load("images\\choice_pc-03.png")
-image_questionmark = image.load("images\\questionmark.png")
+image_pc_rock = image.load(image_dir / "choice_pc-01.png")
+image_pc_paper = image.load(image_dir / "choice_pc-02.png")
+image_pc_scissors = image.load(image_dir / "choice_pc-03.png")
+image_questionmark = image.load(image_dir / "questionmark.png")
 pc_start = sprite.Sprite(image_pc_rock, comps_choice_pos[0], comps_choice_pos[1])
 
 questionmark = sprite.Sprite(image_questionmark, questionmark_pos[0], questionmark_pos[1], batch = options_all)
