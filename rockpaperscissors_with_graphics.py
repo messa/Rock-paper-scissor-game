@@ -46,43 +46,25 @@ pc_start = sprite.Sprite(image_pc_rock, comps_choice_pos[0], comps_choice_pos[1]
 
 questionmark = sprite.Sprite(image_questionmark, questionmark_pos[0], questionmark_pos[1], batch = options_all)
 
-def newgame():
-    global player_score_screen, pc_score_screen, round_screen
-    player_score_screen = text.Label(f"Player's\nscore: {str(score[1])}",
-                                font_size = 30, x = 800, y = 520, width = 300,
-                                align="center", anchor_x = "center", anchor_y="center", multiline=True)
-    pc_score_screen = text.Label(f"Computer's\nscore: {str(score[0])}",
-                                font_size = 30, x = 280, y = 520, width = 300,
-                                align="center", anchor_x = "center", anchor_y="center", multiline=True)
-    round_screen = text.Label(f"round: {game.round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
-
 @window.event
 def on_draw():
-    global pc_start, player_score_screen, pc_score_screen, score, player_start, round_screen, its_a_tie
+    global pc_start, player_start, its_a_tie
     window.clear()
+    game.draw()
     options_all.draw()
     pc_start.draw()
     #score
-    player_score_screen.draw()
-    pc_score_screen.draw()
     chose_one.draw()
     if its_a_tie == 1:
          tie_label.draw()
     #round
-    if game.round_no > 3:
-        round_screen = text.Label(f"round: 3", font_size = 40, x = 550, y = 80, anchor_x="center")
-        if score[0] > score[1]:
-            gameover_screen = text.Label(f"Computer wins!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
-        elif score[1] > score[0]:
-            gameover_screen = text.Label(f"You win!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
-    round_screen.draw()
     player_start.draw()
 
 
 
 @window.event
 def on_mouse_press(x, y, b, mod):
-    global click_record, chosen_image, player_start, score
+    global click_record, chosen_image, player_start
     click_record[0] = x
     click_record[1] = y
     if game.round_no < 4:
@@ -104,12 +86,11 @@ def on_mouse_press(x, y, b, mod):
 
 @window.event
 def on_key_press(symbol, modyfiers):
-    global score
     if game.round_no > 3:
         if symbol == key.SPACE:
             game.round_no = 1
-            score = [0, 0]
-            newgame()
+            game.score = [0, 0]
+            game.newgame()
 
 #create a bounding box area of the image
 def get_bounding_box(v2, v_center):
@@ -125,27 +106,64 @@ def computer_chose():
 
 
 class Game:
+    '''
+    Herni logika
+    '''
 
     def __init__(self):
         self.round_no = 1
+        self.score = [0, 0]
+
+
+    def draw(self):
+        self.player_score_screen.draw()
+        self.pc_score_screen.draw()
+
+        if game.round_no > 3:
+            self.round_screen = text.Label(f"round: 3", font_size = 40, x = 550, y = 80, anchor_x="center")
+            # if score[0] > score[1]:
+            #     self.gameover_screen = text.Label(f"Computer wins!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
+            # elif score[1] > score[0]:
+            #     self.gameover_screen = text.Label(f"You win!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
+        self.round_screen.draw()
+
+
+    def start(self):
+        self.player_score_screen = text.Label(f"Player's\nscore: {str(self.score[1])}",
+                                    font_size = 30, x = 800, y = 520, width = 300,
+                                    align="center", anchor_x = "center", anchor_y="center", multiline=True)
+        self.pc_score_screen = text.Label(f"Computer's\nscore: {str(self.score[0])}",
+                                    font_size = 30, x = 280, y = 520, width = 300,
+                                    align="center", anchor_x = "center", anchor_y="center", multiline=True)
+        self.round_screen = text.Label(f"round: {game.round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
+
+
+    def newgame(self):
+        self.player_score_screen = text.Label(f"Player's\nscore: {str(self.score[1])}",
+                                    font_size = 30, x = 800, y = 520, width = 300,
+                                    align="center", anchor_x = "center", anchor_y="center", multiline=True)
+        self.pc_score_screen = text.Label(f"Computer's\nscore: {str(self.score[0])}",
+                                    font_size = 30, x = 280, y = 520, width = 300,
+                                    align="center", anchor_x = "center", anchor_y="center", multiline=True)
+        self.round_screen = text.Label(f"round: {game.round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
 
 
     def evaluate(self, player, computer):
-        global player_score_screen, pc_score_screen, round_screen, score, its_a_tie
+        global its_a_tie
             #player wins
         if player == image_player_rock and computer == image_pc_scissors or player == image_player_scissors and computer == image_pc_paper or player == image_player_paper and computer == image_pc_rock:
-            score[1] = score[1] + 1 #adds score number
+            self.score[1] = self.score[1] + 1 #adds score number
             its_a_tie = 0
-            player_score_screen = text.Label(f"Player's\nscore: {str(score[1])}", font_size = 30, x = 800, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
+            self.player_score_screen = text.Label(f"Player's\nscore: {str(self.score[1])}", font_size = 30, x = 800, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
             self.round_no = self.round_no + 1 #adds round number
-            round_screen = text.Label(f"round: {self.round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
+            self.round_screen = text.Label(f"round: {self.round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
             #computer wins
         elif player == image_player_scissors and computer == image_pc_rock or player == image_player_paper and computer == image_pc_scissors or player == image_player_rock and computer == image_pc_paper:
-            score[0] = score[0] + 1
+            self.score[0] = self.score[0] + 1
             its_a_tie = 0
-            pc_score_screen = text.Label(f"Computer's\nscore: {str(score[0])}", font_size = 30, x = 280, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
+            self.pc_score_screen = text.Label(f"Computer's\nscore: {str(self.score[0])}", font_size = 30, x = 280, y = 520, width = 300, align="center", anchor_x = "center", anchor_y="center", multiline=True)
             self.round_no = self.round_no + 1
-            round_screen = text.Label(f"round: {self.round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
+            self.round_screen = text.Label(f"round: {self.round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
             #its a tie
         elif player == image_player_rock and computer == image_pc_rock or player == image_player_scissors and computer == image_pc_scissors or player == image_player_paper and computer == image_pc_paper:
             its_a_tie = 1
@@ -154,19 +172,14 @@ class Game:
 game = Game()
 
 #global existing
-score = [0, 0]
 play_image_size = (-265//2, 265, 215//2, -215)
 choice_image_size = (-95//2, 95, -75//2, 75)
 pc_options = [image_pc_rock, image_pc_paper, image_pc_scissors]
-player_score_screen = text.Label(f"Player's\nscore: {str(score[1])}",
-                                font_size = 30, x = 800, y = 520, width = 300,
-                                align="center", anchor_x = "center", anchor_y="center", multiline=True)
-pc_score_screen = text.Label(f"Computer's\nscore: {str(score[0])}",
-                                font_size = 30, x = 280, y = 520, width = 300,
-                                align="center", anchor_x = "center", anchor_y="center", multiline=True)
-round_screen = text.Label(f"round: {game.round_no}", font_size = 40, x = 550, y = 80, anchor_x="center")
+
+game.start()
+
 click_record = [0, 0]
-gameover_screen = text.Label("x win!", font_size = 24)
+#gameover_screen = text.Label("x win!", font_size = 24)
 its_a_tie = 0
 tie_label = text.Label(f"It's a tie!", font_size = 20, x = 550, y = 250, anchor_x="center")
 chose_one = text.Label(f"click \non one:", font_size = 20, x = 1050, y = 470, width = 100,
