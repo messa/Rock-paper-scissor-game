@@ -86,11 +86,9 @@ def on_mouse_press(x, y, b, mod):
 
 @window.event
 def on_key_press(symbol, modyfiers):
-    if game.round_no > 3:
-        if symbol == key.SPACE:
-            game.round_no = 1
-            game.score = [0, 0]
-            game.newgame()
+    if symbol == key.SPACE:
+        if game.round_no > 3:
+            game.restart()
 
 #create a bounding box area of the image
 def get_bounding_box(v2, v_center):
@@ -119,14 +117,21 @@ class Game:
         self.player_score_screen.draw()
         self.pc_score_screen.draw()
 
-        if game.round_no > 3:
+        if self.round_no > 3:
             self.round_screen = text.Label(f"round: 3", font_size = 40, x = 550, y = 80, anchor_x="center")
-            # if score[0] > score[1]:
-            #     self.gameover_screen = text.Label(f"Computer wins!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
-            # elif score[1] > score[0]:
-            #     self.gameover_screen = text.Label(f"You win!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
+            if self.score[0] > self.score[1]:
+                self.gameover_screen = text.Label(f"Computer wins!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
+            elif self.score[1] > self.score[0]:
+                self.gameover_screen = text.Label(f"You win!\nPress space to restart", font_size = 24, x = 550, y = 30, anchor_x = "center").draw()
         self.round_screen.draw()
 
+    def restart(self):
+        '''
+        When spacebar is pressed
+        '''
+        self.round_no = 1
+        self.score = [0, 0]
+        self.newgame()
 
     def start(self):
         self.player_score_screen = text.Label(f"Player's\nscore: {str(self.score[1])}",
